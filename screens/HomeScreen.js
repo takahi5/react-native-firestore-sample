@@ -11,7 +11,27 @@ export default class HomeScreen extends React.Component {
     return (
       <View style={styles.container}>
         <FormLabel>名前</FormLabel>
-        <FormInput onChangeText={name => console.log(name)} />
+        <FormInput onChangeText={text => console.log(text)} />
+        <FormLabel>カロリー(kcal)</FormLabel>
+        <FormInput
+          onChangeText={text => console.log(text)}
+          keyboardType={"number-pad"}
+        />
+        <FormLabel>タンパク質(g)</FormLabel>
+        <FormInput
+          onChangeText={text => console.log(text)}
+          keyboardType={"number-pad"}
+        />
+        <FormLabel>脂質(g)</FormLabel>
+        <FormInput
+          onChangeText={text => console.log(text)}
+          keyboardType={"number-pad"}
+        />
+        <FormLabel>炭水化物(g)</FormLabel>
+        <FormInput
+          onChangeText={text => console.log(text)}
+          keyboardType={"number-pad"}
+        />
       </View>
     );
   }
