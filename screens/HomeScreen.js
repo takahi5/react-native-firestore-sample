@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 import { FormLabel, FormInput, Button } from 'react-native-elements';
 import Fire from '../utils/Fire';
+import Colors from '../constants/Colors';
 import firebase from 'firebase';
 import moment from 'moment';
 import 'moment/locale/ja';
@@ -60,7 +61,17 @@ export default class HomeScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Button title={this.state.date} onPress={() => this.openCalendar()} />
+        <Button
+          title={this.state.date}
+          onPress={() => this.openCalendar()}
+          color={Colors.buttonText}
+          icon={{
+            name: 'calendar',
+            type: 'font-awesome',
+            color: Colors.buttonText,
+          }}
+          backgroundColor="transparent"
+        />
         <FormLabel>名前</FormLabel>
         <FormInput
           onChangeText={name => this.setState({ name })}
