@@ -1,21 +1,23 @@
-import React from "react";
-import { StyleSheet, View } from "react-native";
-import { FormLabel, FormInput, Button } from "react-native-elements";
-import Fire from "../utils/Fire";
-import firebase from "firebase";
+import React from 'react';
+import { StyleSheet, View, Text } from 'react-native';
+import { FormLabel, FormInput, Button } from 'react-native-elements';
+import Fire from '../utils/Fire';
+import firebase from 'firebase';
+import moment from 'moment';
+import 'moment/locale/ja';
 
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
-    header: null
+    title: 'Home',
   };
 
   state = {
-    name: "",
+    name: '',
     cal: 0,
     protein: 0,
     lipid: 0,
     carbohydrate: 0,
-    date: "2018-07-01"
+    date: moment().format('YYYY-MM-DD'),
   };
 
   async componentDidMount() {
@@ -35,6 +37,14 @@ export default class HomeScreen extends React.Component {
     }
   }
 
+  openCalendar() {
+    this.props.navigation.navigate('Calendar', {
+      onDaySelected: day => {
+        this.setState({ date: day.dateString });
+      },
+    });
+  }
+
   createFood() {
     const { name, cal, protein, lipid, carbohydrate, date } = this.state;
     Fire.shared.createFood({
@@ -43,13 +53,14 @@ export default class HomeScreen extends React.Component {
       protein,
       lipid,
       carbohydrate,
-      date
+      date,
     });
   }
 
   render() {
     return (
       <View style={styles.container}>
+        <Button title={this.state.date} onPress={() => this.openCalendar()} />
         <FormLabel>名前</FormLabel>
         <FormInput
           onChangeText={name => this.setState({ name })}
@@ -58,19 +69,19 @@ export default class HomeScreen extends React.Component {
         <FormLabel>カロリー(kcal)</FormLabel>
         <FormInput
           onChangeText={cal => this.setState({ cal: Number(cal) })}
-          keyboardType={"number-pad"}
+          keyboardType={'number-pad'}
           value={this.state.cal.toString()}
         />
         <FormLabel>タンパク質(g)</FormLabel>
         <FormInput
           onChangeText={protein => this.setState({ protein: Number(protein) })}
-          keyboardType={"number-pad"}
+          keyboardType={'number-pad'}
           value={this.state.protein.toString()}
         />
         <FormLabel>脂質(g)</FormLabel>
         <FormInput
           onChangeText={lipid => this.setState({ lipid: Number(lipid) })}
-          keyboardType={"number-pad"}
+          keyboardType={'number-pad'}
           value={this.state.lipid.toString()}
         />
         <FormLabel>炭水化物(g)</FormLabel>
@@ -78,7 +89,7 @@ export default class HomeScreen extends React.Component {
           onChangeText={carbohydrate =>
             this.setState({ carbohydrate: Number(carbohydrate) })
           }
-          keyboardType={"number-pad"}
+          keyboardType={'number-pad'}
           value={this.state.carbohydrate.toString()}
         />
         <Button title="登録" onPress={() => this.createFood()} />
@@ -90,6 +101,6 @@ export default class HomeScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff"
-  }
+    backgroundColor: '#fff',
+  },
 });
