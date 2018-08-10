@@ -39,9 +39,19 @@ HomeStack.navigationOptions = {
   ),
 };
 
-const LinksStack = createStackNavigator({
-  Links: LinksScreen,
-});
+const LinksStack = createStackNavigator(
+  {
+    Links: {
+      screen: LinksScreen,
+    },
+    Calendar: {
+      screen: CalendarScreen,
+    },
+  },
+  {
+    mode: 'modal',
+  }
+);
 
 LinksStack.navigationOptions = {
   tabBarLabel: 'Links',

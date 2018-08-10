@@ -25,14 +25,10 @@ export default class HomeScreen extends React.Component {
     // Check if we are signed in...
     if (Fire.shared.uid) {
       // If we are, then we can get the first 5 posts
-      const res = await Fire.shared.getFoods();
-      console.log(res);
     } else {
       // If we aren't then we should just start observing changes. This will be called when the user signs in
       firebase.auth().onAuthStateChanged(async user => {
         if (user) {
-          const res = await Fire.shared.getFoods();
-          console.log(res);
         }
       });
     }

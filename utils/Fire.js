@@ -1,15 +1,15 @@
-import firebase from "firebase";
-import "firebase/firestore";
+import firebase from 'firebase';
+import 'firebase/firestore';
 
 class Fire {
   constructor() {
     firebase.initializeApp({
-      apiKey: "AIzaSyBzdWCw3BoZ0iRpXpdlof_-r3UfBN-xvhI",
-      authDomain: "food-note.firebaseapp.com",
-      databaseURL: "https://food-note.firebaseio.com",
-      projectId: "food-note",
-      storageBucket: "food-note.appspot.com",
-      messagingSenderId: "450257548170"
+      apiKey: 'AIzaSyBzdWCw3BoZ0iRpXpdlof_-r3UfBN-xvhI',
+      authDomain: 'food-note.firebaseapp.com',
+      databaseURL: 'https://food-note.firebaseio.com',
+      projectId: 'food-note',
+      storageBucket: 'food-note.appspot.com',
+      messagingSenderId: '450257548170',
     });
     firebase.firestore().settings({ timestampsInSnapshots: true });
 
@@ -29,7 +29,7 @@ class Fire {
       lipid,
       carbohydrate,
       date,
-      createdAt
+      createdAt,
     });
   };
 
@@ -42,13 +42,22 @@ class Fire {
     return res;
   };
 
+  searchFooodByDay = async day => {
+    const results = await this.foodCollection.where('date', '==', day).get();
+    const res = [];
+    results.forEach(doc => {
+      res.push(doc.data());
+    });
+    return res;
+  };
+
   // Helpers
   get userCollection() {
-    return firebase.firestore().collection("users");
+    return firebase.firestore().collection('users');
   }
 
   get foodCollection() {
-    return this.userCollection.doc(this.uid).collection("foods");
+    return this.userCollection.doc(this.uid).collection('foods');
   }
 
   get uid() {
