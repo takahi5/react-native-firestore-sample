@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, View, Text, Button as RNButton } from 'react-native';
-import { FormLabel, FormInput, Button } from 'react-native-elements';
+import { FormLabel, FormInput, Button, Icon } from 'react-native-elements';
 import Fire from '../utils/Fire';
 import Colors from '../constants/Colors';
 import firebase from 'firebase';
@@ -13,7 +13,21 @@ export default class EditorScreen extends React.Component {
     return {
       title: '登録',
       headerLeft: (
-        <RNButton onPress={() => navigation.goBack()} title="キャンセル" />
+        <Icon
+          onPress={() => navigation.goBack()}
+          name="close"
+          color={Colors.primaryColor}
+          containerStyle={{ marginLeft: 8 }}
+        />
+      ),
+      headerRight: (
+        <Icon
+          onPress={() => params.onPressOk()}
+          name="check"
+          color={Colors.primaryColor}
+          containerStyle={{ marginLeft: 8 }}
+          containerStyle={{ marginRight: 8 }}
+        />
       ),
     };
   };
@@ -27,7 +41,13 @@ export default class EditorScreen extends React.Component {
     date: moment().format('YYYY-MM-DD'),
   };
 
-  async componentDidMount() {}
+  async componentDidMount() {
+    this.props.navigation.setParams({
+      onPressOk: () => {
+        this.createFood();
+      },
+    });
+  }
 
   openCalendar() {
     this.props.navigation.navigate('Calendar', {
@@ -55,17 +75,6 @@ export default class EditorScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Button
-          title={this.state.date}
-          onPress={() => this.openCalendar()}
-          color={Colors.buttonText}
-          icon={{
-            name: 'calendar',
-            type: 'font-awesome',
-            color: Colors.buttonText,
-          }}
-          backgroundColor="transparent"
-        />
         <FormLabel>名前</FormLabel>
         <FormInput
           onChangeText={name => this.setState({ name })}
@@ -97,7 +106,6 @@ export default class EditorScreen extends React.Component {
           keyboardType={'number-pad'}
           value={this.state.carbohydrate.toString()}
         />
-        <Button title="登録" onPress={() => this.createFood()} />
       </View>
     );
   }

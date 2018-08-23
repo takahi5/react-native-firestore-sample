@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, View, Text, FlatList } from 'react-native';
-import { FormLabel, FormInput, Button } from 'react-native-elements';
+import { FormLabel, FormInput, Button, Icon } from 'react-native-elements';
 import Fire from '../utils/Fire';
 import Colors from '../constants/Colors';
 import firebase from 'firebase';
@@ -66,13 +66,17 @@ export default class ListScreen extends React.Component {
         <Button
           title={this.state.date}
           onPress={() => this.openCalendar()}
-          color={Colors.buttonText}
+          color={Colors.tintColor}
           icon={{
             name: 'calendar',
             type: 'font-awesome',
-            color: Colors.buttonText,
+            color: Colors.tintColor,
           }}
-          backgroundColor={Colors.buttonBackground}
+          buttonStyle={{
+            borderColor: Colors.tintColor,
+            borderWidth: 1,
+            backgroundColor: '#fff',
+          }}
           rounded
         />
         <FlatList
@@ -80,17 +84,16 @@ export default class ListScreen extends React.Component {
           renderItem={({ item }) => this.renderFood(item)}
           keyExtractor={(item, index) => index.toString()}
         />
-        <Button
-          title="ADD"
-          onPress={() => this.openEditor()}
-          color={Colors.buttonText}
-          icon={{
-            name: 'calendar',
-            type: 'font-awesome',
-            color: Colors.buttonText,
-          }}
-          backgroundColor={Colors.buttonBackground}
-        />
+        <View style={styles.roundButtonContainer}>
+          <Icon
+            reverse
+            size={28}
+            name="edit"
+            type="font-awesome"
+            color={Colors.tintColor}
+            onPress={() => this.openEditor()}
+          />
+        </View>
       </View>
     );
   }
@@ -100,5 +103,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
+    padding: 16,
+  },
+  roundButtonContainer: {
+    position: 'absolute',
+    right: 16,
+    bottom: 16,
   },
 });
