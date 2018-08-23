@@ -1,5 +1,6 @@
 import firebase from 'firebase';
 import 'firebase/firestore';
+import Food from '../models/food';
 
 class Fire {
   constructor() {
@@ -37,7 +38,7 @@ class Fire {
     const querySnapshot = await this.foodCollection.get();
     const res = [];
     querySnapshot.forEach(doc => {
-      res.push(doc.data());
+      res.push(new Food(doc));
     });
     return res;
   };
@@ -46,7 +47,7 @@ class Fire {
     const results = await this.foodCollection.where('date', '==', day).get();
     const res = [];
     results.forEach(doc => {
-      res.push(doc.data());
+      res.push(new Food(doc));
     });
     return res;
   };
