@@ -1,6 +1,6 @@
 import React from 'react';
-import { StyleSheet, View, Text, FlatList } from 'react-native';
-import { FormLabel, FormInput, Button, Icon } from 'react-native-elements';
+import { StyleSheet, View, FlatList } from 'react-native';
+import { Button, Icon } from 'react-native-elements';
 import Fire from '../utils/Fire';
 import Colors from '../constants/Colors';
 import firebase from 'firebase';

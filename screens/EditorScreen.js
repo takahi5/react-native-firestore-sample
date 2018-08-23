@@ -1,9 +1,8 @@
 import React from 'react';
-import { StyleSheet, View, Text, Button as RNButton } from 'react-native';
-import { FormLabel, FormInput, Button, Icon } from 'react-native-elements';
+import { StyleSheet, View } from 'react-native';
+import { FormLabel, FormInput, Icon } from 'react-native-elements';
 import Fire from '../utils/Fire';
 import Colors from '../constants/Colors';
-import firebase from 'firebase';
 import moment from 'moment';
 import 'moment/locale/ja';
 

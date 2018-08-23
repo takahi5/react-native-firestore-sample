@@ -1,6 +1,6 @@
 import React from 'react';
-import { View, StyleSheet, Button } from 'react-native';
-import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
+import { View, StyleSheet } from 'react-native';
+import { Calendar } from 'react-native-calendars';
 import { Icon } from 'react-native-elements';
 import Colors from '../constants/Colors';
 
