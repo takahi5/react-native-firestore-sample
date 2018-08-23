@@ -27,18 +27,7 @@ export default class EditorScreen extends React.Component {
     date: moment().format('YYYY-MM-DD'),
   };
 
-  async componentDidMount() {
-    // Check if we are signed in...
-    if (Fire.shared.uid) {
-      // If we are, then we can get the first 5 posts
-    } else {
-      // If we aren't then we should just start observing changes. This will be called when the user signs in
-      firebase.auth().onAuthStateChanged(async user => {
-        if (user) {
-        }
-      });
-    }
-  }
+  async componentDidMount() {}
 
   openCalendar() {
     this.props.navigation.navigate('Calendar', {
@@ -48,16 +37,19 @@ export default class EditorScreen extends React.Component {
     });
   }
 
-  createFood() {
+  async createFood() {
     const { name, cal, protein, lipid, carbohydrate, date } = this.state;
-    Fire.shared.createFood({
+    const food = {
       name,
       cal,
       protein,
       lipid,
       carbohydrate,
       date,
-    });
+    };
+    await Fire.shared.createFood(food);
+    this.props.navigation.state.params.onFoodAdded(food);
+    this.props.navigation.goBack();
   }
 
   render() {

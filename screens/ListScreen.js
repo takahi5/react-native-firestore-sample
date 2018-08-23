@@ -44,7 +44,12 @@ export default class ListScreen extends React.Component {
   }
 
   openEditor() {
-    this.props.navigation.navigate('Editor');
+    this.props.navigation.navigate('Editor', {
+      onFoodAdded: food => {
+        const foods = [...this.state.foods, food];
+        this.setState({ foods });
+      },
+    });
   }
 
   renderFood(food) {
@@ -54,6 +59,7 @@ export default class ListScreen extends React.Component {
       </View>
     );
   }
+
   render() {
     return (
       <View style={styles.container}>
@@ -83,7 +89,7 @@ export default class ListScreen extends React.Component {
             type: 'font-awesome',
             color: Colors.buttonText,
           }}
-          backgroundColor="transparent"
+          backgroundColor={Colors.buttonBackground}
         />
       </View>
     );

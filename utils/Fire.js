@@ -20,9 +20,9 @@ class Fire {
     });
   }
 
-  createFood = ({ name, cal, protein, lipid, carbohydrate, date }) => {
+  createFood = async ({ name, cal, protein, lipid, carbohydrate, date }) => {
     const createdAt = Date.now();
-    this.foodCollection.add({
+    await this.foodCollection.add({
       name,
       cal,
       protein,
