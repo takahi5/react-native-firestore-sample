@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View, Text, Button as RNButton } from 'react-native';
 import { FormLabel, FormInput, Button } from 'react-native-elements';
 import Fire from '../utils/Fire';
 import Colors from '../constants/Colors';
@@ -7,9 +7,15 @@ import firebase from 'firebase';
 import moment from 'moment';
 import 'moment/locale/ja';
 
-export default class HomeScreen extends React.Component {
-  static navigationOptions = {
-    title: 'Home',
+export default class EditorScreen extends React.Component {
+  static navigationOptions = ({ navigation }) => {
+    const params = navigation.state.params || {};
+    return {
+      title: '登録',
+      headerLeft: (
+        <RNButton onPress={() => navigation.goBack()} title="キャンセル" />
+      ),
+    };
   };
 
   state = {

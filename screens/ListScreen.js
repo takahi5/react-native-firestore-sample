@@ -7,9 +7,9 @@ import firebase from 'firebase';
 import moment from 'moment';
 import 'moment/locale/ja';
 
-export default class LinkScreen extends React.Component {
+export default class ListScreen extends React.Component {
   static navigationOptions = {
-    title: 'Home',
+    title: 'FOOD NOTE',
   };
 
   state = {
@@ -38,6 +38,10 @@ export default class LinkScreen extends React.Component {
     });
   }
 
+  openEditor() {
+    this.props.navigation.navigate('Editor');
+  }
+
   renderFood(food) {
     return (
       <View>
@@ -63,6 +67,17 @@ export default class LinkScreen extends React.Component {
           data={this.state.foods}
           renderItem={({ item }) => this.renderFood(item)}
           keyExtractor={(item, index) => index.toString()}
+        />
+        <Button
+          title="ADD"
+          onPress={() => this.openEditor()}
+          color={Colors.buttonText}
+          icon={{
+            name: 'calendar',
+            type: 'font-awesome',
+            color: Colors.buttonText,
+          }}
+          backgroundColor="transparent"
         />
       </View>
     );
