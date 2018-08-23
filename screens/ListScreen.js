@@ -7,6 +7,7 @@ import firebase from 'firebase';
 import moment from 'moment';
 import 'moment/locale/ja';
 import ListItem from '../components/ListItem';
+import SummaryItem from '../components/SummaryItem';
 
 export default class ListScreen extends React.Component {
   static navigationOptions = {
@@ -17,6 +18,28 @@ export default class ListScreen extends React.Component {
     foods: [],
     date: moment().format('YYYY-MM-DD'),
   };
+
+  get totalCal() {
+    if (this.state.foods.length === 0) return 0;
+    return this.state.foods.map(food => food.cal).reduce((a, b) => a + b);
+  }
+
+  get totalProtein() {
+    if (this.state.foods.length === 0) return 0;
+    return this.state.foods.map(food => food.protein).reduce((a, b) => a + b);
+  }
+
+  get totalLipid() {
+    if (this.state.foods.length === 0) return 0;
+    return this.state.foods.map(food => food.lipid).reduce((a, b) => a + b);
+  }
+
+  get totalCarbohydrate() {
+    if (this.state.foods.length === 0) return 0;
+    return this.state.foods
+      .map(food => food.carbohydrate)
+      .reduce((a, b) => a + b);
+  }
 
   async componentDidMount() {
     if (Fire.shared.uid) {
@@ -75,6 +98,12 @@ export default class ListScreen extends React.Component {
             backgroundColor: '#fff',
           }}
           rounded
+        />
+        <SummaryItem
+          cal={this.totalCal}
+          protein={this.totalProtein}
+          lipid={this.totalLipid}
+          carbohydrate={this.totalCarbohydrate}
         />
         <FlatList
           data={this.state.foods}
