@@ -6,6 +6,7 @@ import Colors from '../constants/Colors';
 import firebase from 'firebase';
 import moment from 'moment';
 import 'moment/locale/ja';
+import ListItem from '../components/ListItem';
 
 export default class ListScreen extends React.Component {
   static navigationOptions = {
@@ -53,11 +54,7 @@ export default class ListScreen extends React.Component {
   }
 
   renderFood(food) {
-    return (
-      <View>
-        <Text>{food.name}</Text>
-      </View>
-    );
+    return <ListItem food={food} />;
   }
 
   render() {
