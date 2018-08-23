@@ -18,20 +18,25 @@ export default class ListScreen extends React.Component {
   };
 
   async componentDidMount() {
-    // Check if we are signed in...
     if (Fire.shared.uid) {
-      // If we are, then we can get the first 5 posts
+      this.searchFooodByDay(this.state.date);
     } else {
-      // If we aren't then we should just start observing changes. This will be called when the user signs in
-      firebase.auth().onAuthStateChanged(async user => {});
+      firebase.auth().onAuthStateChanged(async user => {
+        this.searchFooodByDay(this.state.date);
+      });
     }
   }
 
   async onDaySelected(day) {
     this.setState({ date: day.dateString });
-    const foods = await Fire.shared.searchFooodByDay(day.dateString);
+    this.searchFooodByDay(day.dateString);
+  }
+
+  async searchFooodByDay(dateString) {
+    const foods = await Fire.shared.searchFooodByDay(dateString);
     this.setState({ foods });
   }
+
   openCalendar() {
     this.props.navigation.navigate('Calendar', {
       onDaySelected: day => this.onDaySelected(day),
