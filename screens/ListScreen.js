@@ -66,7 +66,8 @@ export default class ListScreen extends React.Component {
             type: 'font-awesome',
             color: Colors.buttonText,
           }}
-          backgroundColor="transparent"
+          backgroundColor={Colors.buttonBackground}
+          rounded
         />
         <FlatList
           data={this.state.foods}
