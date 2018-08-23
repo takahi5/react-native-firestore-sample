@@ -1,6 +1,8 @@
 import React from 'react';
 import { View, StyleSheet, Button } from 'react-native';
 import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
+import { Icon } from 'react-native-elements';
+import Colors from '../constants/Colors';
 
 export default class CalendarScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -8,7 +10,12 @@ export default class CalendarScreen extends React.Component {
     return {
       title: 'カレンダー',
       headerLeft: (
-        <Button onPress={() => navigation.goBack()} title="キャンセル" />
+        <Icon
+          onPress={() => navigation.goBack()}
+          name="close"
+          color={Colors.primaryColor}
+          containerStyle={{ marginLeft: 8 }}
+        />
       ),
     };
   };
@@ -21,7 +28,13 @@ export default class CalendarScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Calendar onDayPress={day => this.onDayPress(day)} />
+        <Calendar
+          onDayPress={day => this.onDayPress(day)}
+          theme={{
+            todayTextColor: Colors.tintColor,
+            arrowColor: Colors.tintColor,
+          }}
+        />
       </View>
     );
   }
