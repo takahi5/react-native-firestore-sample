@@ -61,6 +61,12 @@ class Fire {
     });
   };
 
+  deleteFoodById = async id => {
+    const docRef = await this.foodCollection.doc(id);
+    if (!docRef) return;
+    return await docRef.delete();
+  };
+
   searchFooodByDay = async day => {
     const results = await this.foodCollection.where('date', '==', day).get();
     const res = [];

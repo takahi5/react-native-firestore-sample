@@ -1,10 +1,21 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Alert } from 'react-native';
 import { FormLabel, FormInput, Icon } from 'react-native-elements';
 import Fire from '../utils/Fire';
 import Colors from '../constants/Colors';
 import moment from 'moment';
 import 'moment/locale/ja';
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+  },
+  footerContainer: {
+    margin: 16,
+    alignItems: 'flex-end',
+  },
+});
 
 export default class EditorScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -24,7 +35,6 @@ export default class EditorScreen extends React.Component {
           onPress={() => params.onPressOk()}
           name="check"
           color={Colors.primaryColor}
-          containerStyle={{ marginLeft: 8 }}
           containerStyle={{ marginRight: 8 }}
         />
       ),
@@ -50,15 +60,17 @@ export default class EditorScreen extends React.Component {
     if (params.date) {
       this.setState({ date: params.date });
     }
-    const food = await Fire.shared.getFoodById(params.id);
-    this.setState({
-      name: food.name,
-      cal: food.cal,
-      protein: food.protein,
-      lipid: food.lipid,
-      carbohydrate: food.carbohydrate,
-      date: food.date,
-    });
+    if (params.id) {
+      const food = await Fire.shared.getFoodById(params.id);
+      this.setState({
+        name: food.name,
+        cal: food.cal,
+        protein: food.protein,
+        lipid: food.lipid,
+        carbohydrate: food.carbohydrate,
+        date: food.date,
+      });
+    }
   }
 
   async onPressOk() {
@@ -82,7 +94,26 @@ export default class EditorScreen extends React.Component {
     this.props.navigation.goBack();
   }
 
+  async onPressDelete() {
+    const params = this.props.navigation.state.params || {};
+    if (!params.id) return;
+
+    Alert.alert('削除', 'このデータを削除します', [
+      {
+        text: 'OK',
+        onPress: async () => {
+          await Fire.shared.deleteFoodById(params.id);
+          this.props.navigation.state.params.onEdited();
+          this.props.navigation.goBack();
+        },
+        style: 'default',
+      },
+      { text: 'キャンセル', style: 'cancel' },
+    ]);
+  }
+
   render() {
+    const params = this.props.navigation.state.params || {};
     return (
       <View style={styles.container}>
         <FormLabel>名前</FormLabel>
@@ -116,14 +147,16 @@ export default class EditorScreen extends React.Component {
           keyboardType={'number-pad'}
           value={this.state.carbohydrate.toString()}
         />
+        {params.id ? (
+          <View style={styles.footerContainer}>
+            <Icon
+              onPress={() => this.onPressDelete()}
+              name="delete"
+              color={Colors.primaryColor}
+            />
+          </View>
+        ) : null}
       </View>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
-});
