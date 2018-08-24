@@ -69,6 +69,7 @@ export default class ListScreen extends React.Component {
 
   openEditor() {
     this.props.navigation.navigate('Editor', {
+      date: this.state.date,
       onFoodAdded: food => {
         const foods = [...this.state.foods, food];
         this.setState({ foods });

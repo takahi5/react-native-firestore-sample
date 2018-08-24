@@ -46,14 +46,9 @@ export default class EditorScreen extends React.Component {
         this.createFood();
       },
     });
-  }
-
-  openCalendar() {
-    this.props.navigation.navigate('Calendar', {
-      onDaySelected: day => {
-        this.setState({ date: day.dateString });
-      },
-    });
+    if (this.props.navigation.state.params.date) {
+      this.setState({ date: this.props.navigation.state.params.date });
+    }
   }
 
   async createFood() {
