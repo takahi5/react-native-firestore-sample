@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, Text } from 'react-native';
+import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import Colors from '../constants/Colors';
 
 const styles = StyleSheet.create({
@@ -31,18 +31,20 @@ const styles = StyleSheet.create({
   },
 });
 
-export default (ListItem = ({ food }) => {
+export default (ListItem = ({ food, onPress }) => {
   return (
-    <View style={styles.container}>
-      <View style={styles.subContainer}>
-        <Text style={styles.title}>{food.name}</Text>
-        <Text style={styles.subTitle}>{`${food.cal}kcal`}</Text>
+    <TouchableOpacity onPress={onPress}>
+      <View style={styles.container}>
+        <View style={styles.subContainer}>
+          <Text style={styles.title}>{food.name}</Text>
+          <Text style={styles.subTitle}>{`${food.cal}kcal`}</Text>
+        </View>
+        <View style={[styles.subContainer, { justifyContent: 'flex-end' }]}>
+          <Text style={styles.text}>{`タンパク質: ${food.protein}g`}</Text>
+          <Text style={styles.text}>{`脂質: ${food.lipid}g`}</Text>
+          <Text style={styles.text}>{`炭水化物: ${food.carbohydrate}g`}</Text>
+        </View>
       </View>
-      <View style={[styles.subContainer, { justifyContent: 'flex-end' }]}>
-        <Text style={styles.text}>{`タンパク質: ${food.protein}g`}</Text>
-        <Text style={styles.text}>{`脂質: ${food.lipid}g`}</Text>
-        <Text style={styles.text}>{`炭水化物: ${food.carbohydrate}g`}</Text>
-      </View>
-    </View>
+    </TouchableOpacity>
   );
 });

@@ -43,6 +43,24 @@ class Fire {
     return res;
   };
 
+  getFoodById = async id => {
+    const doc = await this.foodCollection.doc(id).get();
+    return doc.exists ? new Food(doc) : null;
+  };
+
+  updateFood = async food => {
+    const docRef = await this.foodCollection.doc(food.id);
+    if (!docRef) return;
+
+    return await docRef.update({
+      name: food.name,
+      cal: food.cal,
+      protein: food.protein,
+      lipid: food.lipid,
+      carbohydrate: food.carbohydrate,
+    });
+  };
+
   searchFooodByDay = async day => {
     const results = await this.foodCollection.where('date', '==', day).get();
     const res = [];

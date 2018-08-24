@@ -67,18 +67,18 @@ export default class ListScreen extends React.Component {
     });
   }
 
-  openEditor() {
+  openEditor(id = undefined) {
     this.props.navigation.navigate('Editor', {
       date: this.state.date,
-      onFoodAdded: food => {
-        const foods = [...this.state.foods, food];
-        this.setState({ foods });
+      onEdited: () => {
+        this.searchFooodByDay(this.state.date);
       },
+      id,
     });
   }
 
   renderFood(food) {
-    return <ListItem food={food} />;
+    return <ListItem food={food} onPress={() => this.openEditor(food.id)} />;
   }
 
   render() {

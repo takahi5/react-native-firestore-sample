@@ -10,7 +10,7 @@ export default class EditorScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     const params = navigation.state.params || {};
     return {
-      title: '登録',
+      title: params.date,
       headerLeft: (
         <Icon
           onPress={() => navigation.goBack()}
@@ -41,19 +41,31 @@ export default class EditorScreen extends React.Component {
   };
 
   async componentDidMount() {
+    const params = this.props.navigation.state.params || {};
     this.props.navigation.setParams({
       onPressOk: () => {
-        this.createFood();
+        this.onPressOk();
       },
     });
-    if (this.props.navigation.state.params.date) {
-      this.setState({ date: this.props.navigation.state.params.date });
+    if (params.date) {
+      this.setState({ date: params.date });
     }
+    const food = await Fire.shared.getFoodById(params.id);
+    this.setState({
+      name: food.name,
+      cal: food.cal,
+      protein: food.protein,
+      lipid: food.lipid,
+      carbohydrate: food.carbohydrate,
+      date: food.date,
+    });
   }
 
-  async createFood() {
+  async onPressOk() {
+    const params = this.props.navigation.state.params || {};
     const { name, cal, protein, lipid, carbohydrate, date } = this.state;
     const food = {
+      id: params.id,
       name,
       cal,
       protein,
@@ -61,8 +73,12 @@ export default class EditorScreen extends React.Component {
       carbohydrate,
       date,
     };
-    await Fire.shared.createFood(food);
-    this.props.navigation.state.params.onFoodAdded(food);
+    if (params.id) {
+      await Fire.shared.updateFood(food);
+    } else {
+      await Fire.shared.createFood(food);
+    }
+    this.props.navigation.state.params.onEdited();
     this.props.navigation.goBack();
   }
 
